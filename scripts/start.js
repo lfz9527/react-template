@@ -14,15 +14,18 @@ const fs = require("fs");
 const chalk = require("react-dev-utils/chalk");
 const webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
+const paths = require('../config/paths.js')
 
-const { createCompiler,choosePort } = require("react-dev-utils/WebpackDevServerUtils");
+const { createCompiler,choosePort,prepareUrls } = require("react-dev-utils/WebpackDevServerUtils");
 
 const configFactory = require("../config/webpack.config");
+
 const config = configFactory("development");
+const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+const appName = require(paths.appPackageJson).name;
 
 // 判断是否在tty环境
 const isInteractive = process.stdout.isTTY;
-
 
 // 端口
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
@@ -38,10 +41,20 @@ checkBrowsers(".", isInteractive)
   })
   .then((port) => {
 
+
+    const urls = prepareUrls(
+        protocol,
+        HOST,
+        port,
+        paths.publicUrlOrPath.slice(0, -1)
+    );
+
     // 创建Webpack编译器实例有用的信息
     const compiler = createCompiler({
+      appName,
       config,
       webpack,
+      urls
     });
 
     // 服务配置

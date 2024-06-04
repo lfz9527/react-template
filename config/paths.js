@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const getPublicUrlOrPath = require("react-dev-utils/getPublicUrlOrPath");
 
-// 确保所有连接在项目里都是决定的路径
+// 确保所有连接在项目里都是绝对的路径
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
@@ -44,7 +44,10 @@ const resolveModule = (resolveFn, filePath) => {
 };
 
 module.exports = {
+  appSrc: resolveApp('src'),
   appPath: resolveApp("."),
   appBuild: resolveApp(buildPath),
+  appPackageJson: resolveApp('package.json'),
   appIndexJs: resolveModule(resolveApp, "src/index"),
+  publicUrlOrPath,
 };
