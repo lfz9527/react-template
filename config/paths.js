@@ -47,7 +47,10 @@ module.exports = {
   appSrc: resolveApp('src'),
   appPath: resolveApp("."),
   appBuild: resolveApp(buildPath),
+  appPublic: resolveApp('public'),
   appPackageJson: resolveApp('package.json'),
+  yarnLockFile: resolveApp('yarn.lock'),
+  proxySetup:resolveApp('src/setupProxy.js'),
   appIndexJs: resolveModule(resolveApp, "src/index"),
   publicUrlOrPath,
 };
